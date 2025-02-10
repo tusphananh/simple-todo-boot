@@ -1,17 +1,21 @@
+package com.example.demo.resolvers;
+
+import com.example.demo.entities.Todo;
+import com.example.demo.entities.User;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.DgsMutation;
+import com.example.demo.services.TodoService;
+import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @DgsComponent
+@RequiredArgsConstructor
 public class TodoResolver {
 
     private final TodoService todoService;
-
-    public TodoResolver(TodoService todoService) {
-        this.todoService = todoService;
-    }
 
     @DgsQuery
     public List<Todo> getTodos() {
@@ -24,8 +28,8 @@ public class TodoResolver {
     }
 
     @DgsMutation
-    public Todo createTodo(String title, String description, LocalDateTime dueDate) {
-        return todoService.createTodo(title, description, dueDate);
+    public Todo createTodo(String title, String description, LocalDateTime dueDate, User user) {
+        return todoService.createTodo(title, description, dueDate, user);
     }
 
     @DgsMutation
