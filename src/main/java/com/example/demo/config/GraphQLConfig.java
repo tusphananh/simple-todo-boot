@@ -19,9 +19,8 @@ public class GraphQLConfig {
     public GraphQL graphQL() {
         return GraphQL.newGraphQL(
                 new GraphQLSchemaGenerator()
-                        .withOperationsFromSingleton(todoResolver)
+                        .withOperationsFromSingleton(todoResolver) // ✅ Registers queries/mutations
                         .generate()
         ).build();
     }
-
 }
