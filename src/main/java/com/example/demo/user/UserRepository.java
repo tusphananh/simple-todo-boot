@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepo extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     // Built-in methods from JpaRepository:
     // - save()
     // - findById()
@@ -14,12 +14,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     // - delete()
     // etc.
 
-    // Custom query methods
-    User findByEmail(String email);
-
     Optional<User> findByUsername(String username);
-
-    boolean existsByEmail(String email);
 
     boolean existsByUsername(String username);
 }

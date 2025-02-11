@@ -1,20 +1,26 @@
 package com.example.demo.user;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    private final UserRepo userRepo;
-    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepo;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepo) {
         this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
     }
+
+    @Autowired
+    BCryptPasswordEncoder passwordEncoder;
 
     public User createUser(User user) {
         validateNewUser(user);
@@ -47,6 +53,8 @@ public class UserService {
     }
 
     private void validateNewUser(User user) {
+        logger.info("Validating new user with username: {}", user.toString());
+
         if (user.getUsername() == null || user.getUsername().trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be empty");
         }

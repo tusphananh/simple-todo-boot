@@ -15,11 +15,12 @@ public class UserResolver {
         this.userService = userService;
     }
 
-    @GraphQLMutation
-    public User register(@GraphQLArgument String username, @GraphQLArgument String email,
+    @GraphQLMutation(name = "register", description = "to register user")
+    public User register(@GraphQLArgument String username, @GraphQLArgument String firstName,
+            @GraphQLArgument String lastName,
             @GraphQLArgument String password) {
 
-        return this.userService.createUser(new User(password, email, password, username));
+        return this.userService.createUser(new User(firstName, lastName, password, username));
 
     }
 
