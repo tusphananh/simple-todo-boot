@@ -1,44 +1,50 @@
 package com.example.demo.resolvers;
 
 import com.example.demo.entities.Todo;
-import com.example.demo.entities.User;
-import com.netflix.graphql.dgs.DgsComponent;
-import com.netflix.graphql.dgs.DgsQuery;
-import com.netflix.graphql.dgs.DgsMutation;
 import com.example.demo.services.TodoService;
-import lombok.RequiredArgsConstructor;
+import io.leangen.graphql.annotations.GraphQLMutation;
+import io.leangen.graphql.annotations.GraphQLQuery;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@DgsComponent
-@RequiredArgsConstructor
+@Component
 public class TodoResolver {
 
     private final TodoService todoService;
 
-    @DgsQuery
+    public TodoResolver(TodoService todoService) {
+        this.todoService = todoService;
+    }
+
+    @GraphQLQuery(name = "getTodos")
     public List<Todo> getTodos() {
         return todoService.getAllTodos();
     }
-
-    @DgsQuery
+    @GraphQLQuery(name = "getTodoById")
     public Todo getTodoById(Long id) {
         return todoService.getTodoById(id);
     }
 
-    @DgsMutation
-    public Todo createTodo(String title, String description, LocalDateTime dueDate, User user) {
-        return todoService.createTodo(title, description, dueDate, user);
+    @GraphQLQuery(name = "getTodoByUserId")
+    public List<Todo> getTodoByUserId(Long userId) {
+        return todoService.getTodosByUserId(userId);
     }
 
-    @DgsMutation
+    @GraphQLMutation(name = "addTodo")
+    public Todo createTodo(String title, String description, LocalDateTime dueDate, Long userId) {
+        return todoService.createTodo(title, description, dueDate, userId);
+    }
+
+    @GraphQLMutation(name = "updateTodo")
     public Todo updateTodo(Long id, String title, String description, Boolean completed) {
         return todoService.updateTodo(id, title, description, completed);
     }
 
-    @DgsMutation
+    @GraphQLMutation(name = "deleteTodo")
     public boolean deleteTodo(Long id) {
         return todoService.deleteTodoById(id);
     }
+
 }

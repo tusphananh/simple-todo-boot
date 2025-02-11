@@ -3,6 +3,7 @@ package com.example.demo.services.impl;
 import com.example.demo.entities.Todo;
 import com.example.demo.entities.User;
 import com.example.demo.repository.TodoRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.services.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ public class TodoServiceImpl implements TodoService {
     @Autowired
     private TodoRepository todoRepository;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Todo> getAllTodos() {
@@ -25,7 +28,10 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public List<Todo> getTodosByUser(User user) {
+    public List<Todo> getTodosByUserId(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         return todoRepository.findByUser(user);
     }
 
@@ -36,7 +42,10 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Todo createTodo(String title, String description, LocalDateTime dueDate, User user) {
+    public Todo createTodo(String title, String description, LocalDateTime dueDate, Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
         Todo todo = new Todo();
         todo.setTitle(title);
         todo.setDescription(description);
