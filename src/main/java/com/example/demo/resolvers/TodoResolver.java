@@ -5,10 +5,12 @@ import com.example.demo.services.TodoService;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import org.springframework.stereotype.Component;
+import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@GraphQLApi
 @Component
 public class TodoResolver {
 
