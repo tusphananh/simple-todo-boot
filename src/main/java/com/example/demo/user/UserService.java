@@ -66,4 +66,8 @@ public class UserService {
         }
 
     }
+
+    public boolean verifyPassword(User user, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, user.getPassword());
+    }
 }

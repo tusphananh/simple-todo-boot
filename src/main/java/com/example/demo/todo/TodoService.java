@@ -1,6 +1,9 @@
 package com.example.demo.todo;
 
 import org.springframework.stereotype.Service;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @Service
@@ -21,9 +24,6 @@ class TodoService {
     }
 
     public Todo createTodo(Todo todo) {
-        if (todo.getTitle() == null || todo.getTitle().trim().isEmpty()) {
-            throw new IllegalArgumentException("Todo title cannot be empty");
-        }
         return todoRepository.save(todo);
     }
 
